@@ -1,0 +1,14 @@
+services:
+  api:
+    # O ponto crucial: o Docker vai entrar na pasta backend para procurar o Dockerfile
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile 
+    container_name: ondeestacionar_backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/data:/app/data
+    restart: always
