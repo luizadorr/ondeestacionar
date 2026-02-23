@@ -53,12 +53,12 @@ O **Onde Estacionar** está sendo projetado para resolver um dos maiores problem
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-   cd seu-repositorio
+   git clone [(https://github.com/luizadorr/ondeestacionar.git)]
+   cd ondeestacionar
 
 
 2. **Configure as Variáveis de Ambiente:**
-Já tem um arquivo `.env.example` na raiz do projeto:
+Já existe um arquivo `.env.example` na raiz do projeto:
 ```env
 GROQ_API_KEY=sua_chave_aqui
 
