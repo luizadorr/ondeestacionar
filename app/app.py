@@ -13,7 +13,11 @@ import holidays
 # =====================
 load_dotenv()
 
-app = Flask("OndeEstacionar")
+app = Flask(
+    "OndeEstacionar",
+    static_folder="static",
+    static_url_path=""
+)
 
 DB_PATH = os.path.join(
     os.path.dirname(__file__),
@@ -101,3 +105,7 @@ RETORNE ESTRITAMENTE UM JSON com:
             "percentage": 50,
             "justificativa": "Erro ao processar a previsão."
         })
+
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")    
