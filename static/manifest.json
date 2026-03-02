@@ -1,0 +1,22 @@
+{
+  "name": "Onde Estacionar",
+  "short_name": "OndeEstacionar",
+  "description": "Encontre vagas de estacionamento com auxílio de IA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#F97316", 
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
