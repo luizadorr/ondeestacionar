@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime
 
 from flask import Flask, jsonify, request
-from groq_services import get_groq_client
+from services.groq_services import get_groq_client
 from dotenv import load_dotenv
 import holidays
 
