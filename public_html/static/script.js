@@ -5,6 +5,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap contributors © CARTO'
 }).addTo(map);
 
+
 let marcadoresLayer = L.layerGroup().addTo(map);
 let idsProcessados = new Set();
 let currentLocal = null;
@@ -84,7 +85,7 @@ function exibirSugestoes(resultados) {
 // CARREGAMENTO (BANCO) 
 async function carregarZonasAzuisBanco() {
     try {
-        const response = await fetch('http://localhost:8000/locais');
+        const response = await fetch("/estacionamentos");
         const locais = await response.json();
         locais.forEach(local => {
             const idUnico = `banco-${local.lat}-${local.lng}`;
@@ -112,6 +113,37 @@ function adicionarMarcador(local, origem) {
      .on('click', () => showDetails(local));
 }
 
+async function buscarEstacionamentosReais(lat, lng) {
+    // Definimos um raio de busca (ex: 1km)
+    const raio = 1000; 
+    // Query para buscar estacionamentos no OpenStreetMap
+    const query = `[out:json];node["amenity"="parking"](around:${raio},${lat},${lng});out;`;
+    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        data.elements.forEach(ponto => {
+            const idUnico = `osm-${ponto.id}`;
+            
+            if (!idsProcessados.has(idUnico)) {
+                const local = {
+                    nome: ponto.tags.name || "Estacionamento Público",
+                    lat: ponto.lat,
+                    lng: ponto.lon,
+                    origem: 'osm'
+                };
+                
+                adicionarMarcador(local, 'real');
+                idsProcessados.add(idUnico);
+            }
+        });
+    } catch (error) {
+        console.error("Erro ao buscar estacionamentos reais:", error);
+    }
+}
+
 // CARD IA 
 async function showDetails(local) {
     currentLocal = local;
@@ -134,7 +166,7 @@ async function showDetails(local) {
     const dataSelecionada = inputData.value; 
 
     try {
-        const url = `http://localhost:8000/predict?lat=${local.lat}&lng=${local.lng}&local=${encodeURIComponent(local.nome)}&hora=${horaSelecionada}&data=${dataSelecionada}`;        const res = await fetch(url);
+        const url = `http://localhost:8001/predict?lat=${local.lat}&lng=${local.lng}&local=${encodeURIComponent(local.nome)}&hora=${horaSelecionada}&data=${dataSelecionada}`;        const res = await fetch(url);
         const data = await res.json();
 
         percDisplay.innerText = data.percentage + "%";
@@ -167,6 +199,7 @@ function closeCard() {
 
 function abrirRota() {
     if (!currentLocal) return;
+    // O link correto do Google Maps é este:
     window.open(`https://www.google.com/maps/dir/?api=1&destination=${currentLocal.lat},${currentLocal.lng}`, '_blank');
 }
 

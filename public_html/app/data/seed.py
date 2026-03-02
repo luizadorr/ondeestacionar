@@ -1,13 +1,13 @@
 import sqlite3
 import os
 
-DB_PATH = "/app/data/estacionamentos.db"
+# Caminho absoluto baseado neste arquivo
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "estacionamentos.db")
 
 def seed_data():
     print(f"--- Iniciando População do Banco ---")
-    
-    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-    
+        
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
@@ -256,10 +256,7 @@ def seed_data():
             ('Rua Des. Antonio Herculano (14 vagas)', -12.9465, -38.3345, 'Zona Azul'),
             ('Rua Prof. Dalmo Pontual (30 vagas)', -12.9485, -38.3355, 'Zona Azul')
         ]
-        
-
-        cursor.execute("DELETE FROM locais")
-        
+                
         cursor.executemany(
             'INSERT INTO locais (nome, lat, lng, tipo) VALUES (?, ?, ?, ?)', bahia_park +
             zonas_azuis_salvador

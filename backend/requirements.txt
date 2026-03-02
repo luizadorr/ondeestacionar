@@ -1,5 +1,0 @@
-groq
-fastapi
-uvicorn
-holidays
-python-dotenv
