@@ -166,7 +166,7 @@ async function showDetails(local) {
     const dataSelecionada = inputData.value; 
 
     try {
-        const url = `http://localhost:8001/predict?lat=${local.lat}&lng=${local.lng}&local=${encodeURIComponent(local.nome)}&hora=${horaSelecionada}&data=${dataSelecionada}`;        
+        const url = `/predict?lat=${local.lat}&lng=${local.lng}&local=${encodeURIComponent(local.nome)}&hora=${horaSelecionada}&data=${dataSelecionada}`;        
         const res = await fetch(url);
         const data = await res.json();
 
