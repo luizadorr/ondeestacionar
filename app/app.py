@@ -46,9 +46,10 @@ def get_db():
 @app.route("/estacionamentos")
 def listar_estacionamentos():
     conn = get_db()
+    conn.row_factory = sqlite3.Row  # ← isso transforma em dicionário
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM estacionamentos")
-    dados = cursor.fetchall()
+    dados = [dict(row) for row in cursor.fetchall()]
     conn.close()
     return jsonify(dados)
 

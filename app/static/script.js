@@ -114,19 +114,19 @@ function adicionarMarcador(local, origem) {
 }
 
 async function buscarEstacionamentosReais(lat, lng) {
-    // Definimos um raio de busca (ex: 1km)
     const raio = 1000; 
-    // Query para buscar estacionamentos no OpenStreetMap
     const query = `[out:json];node["amenity"="parking"](around:${raio},${lat},${lng});out;`;
     const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-
     try {
         const response = await fetch(url);
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            console.warn("Overpass retornou resposta inválida, ignorando.");
+            return;
+        }
         const data = await response.json();
-
         data.elements.forEach(ponto => {
             const idUnico = `osm-${ponto.id}`;
-            
             if (!idsProcessados.has(idUnico)) {
                 const local = {
                     nome: ponto.tags.name || "Estacionamento Público",
@@ -134,7 +134,6 @@ async function buscarEstacionamentosReais(lat, lng) {
                     lng: ponto.lon,
                     origem: 'osm'
                 };
-                
                 adicionarMarcador(local, 'real');
                 idsProcessados.add(idUnico);
             }
