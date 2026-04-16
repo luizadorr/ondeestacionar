@@ -45,8 +45,10 @@ def get_db():
 # =====================
 @app.route("/estacionamentos")
 def listar_estacionamentos():
+    print(f"DB_PATH: {DB_PATH}")
+    print(f"DB existe: {os.path.exists(DB_PATH)}")
     conn = get_db()
-    conn.row_factory = sqlite3.Row  # ← isso transforma em dicionário
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM estacionamentos")
     dados = [dict(row) for row in cursor.fetchall()]
