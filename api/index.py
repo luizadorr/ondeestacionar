@@ -1,10 +1,7 @@
 import sys
 import os
 
-root = os.path.dirname(os.path.dirname(__file__))
-sys.path.insert(0, root)
-
-app_dir = os.path.join(root, "app")
+app_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "app")
 sys.path.insert(0, app_dir)
 
-from app.app import app
+from app import app
