@@ -85,7 +85,7 @@ function exibirSugestoes(resultados) {
 // CARREGAMENTO (BANCO) 
 async function carregarZonasAzuisBanco() {
     try {
-        const response = await fetch("/app/data/estacionamentos");
+        const response = await fetch("/estacionamentos");
         const locais = await response.json();
         locais.forEach(local => {
             const idUnico = `banco-${local.lat}-${local.lng}`;
