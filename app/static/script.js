@@ -85,7 +85,7 @@ function exibirSugestoes(resultados) {
 // CARREGAMENTO (BANCO) 
 async function carregarZonasAzuisBanco() {
     try {
-        const response = await fetch("/estacionamentos");
+        const response = await fetch("/app/data/estacionamentos");
         const locais = await response.json();
         locais.forEach(local => {
             const idUnico = `banco-${local.lat}-${local.lng}`;
@@ -166,7 +166,8 @@ async function showDetails(local) {
     const dataSelecionada = inputData.value; 
 
     try {
-        const url = `http://localhost:8001/predict?lat=${local.lat}&lng=${local.lng}&local=${encodeURIComponent(local.nome)}&hora=${horaSelecionada}&data=${dataSelecionada}`;        const res = await fetch(url);
+        const url = `http://localhost:8001/predict?lat=${local.lat}&lng=${local.lng}&local=${encodeURIComponent(local.nome)}&hora=${horaSelecionada}&data=${dataSelecionada}`;        
+        const res = await fetch(url);
         const data = await res.json();
 
         percDisplay.innerText = data.percentage + "%";
