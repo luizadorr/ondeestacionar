@@ -13,11 +13,14 @@ import holidays
 # =====================
 load_dotenv()
 
-app = Flask(
-    "OndeEstacionar",
-    static_folder="static",
-    static_url_path=""
-)
+#app = Flask(
+#    "OndeEstacionar",
+#    static_folder="static",
+#    static_url_path=""
+#)
+
+app = Flask("OndeEstacionar", static_folder=os.path.join(os.path.dirname(__file__), "static"))
+
 
 DB_PATH = os.path.join(
     os.path.dirname(__file__),
@@ -108,4 +111,4 @@ RETORNE ESTRITAMENTE UM JSON com:
 
 @app.route("/")
 def index():
-    return app.send_static_file("index.html")    
+    return send_from_directory(app.static_folder, "index.html")  
